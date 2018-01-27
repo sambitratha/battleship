@@ -35,8 +35,16 @@ def getStringObject(s,centerx,centery,textColor,bgColor):
     textRect.center = (centerx, centery)
     return [textObj , textRect]
 
+
+def gameover(DISPLAY, serverstate, clientstate, serverboard, clientboard, person, moves, WINNER):
+    [tobject, trect] = getStringObject(WINNER + " won", windowlength/2, windowheight/2, red, white)
+    DISPLAY.blit(tobject,trect)
+
 def draw(DISPLAY, serverstate, clientstate, serverboard, clientboard, person, moves, currentmove):
 
+    if currentmove[0] == 'o':
+        gameover(DISPLAY, serverstate, clientstate, serverboard, clientboard, person, moves, currentmove[4:])
+        return
     myboard = False
     board = None
     state = None
