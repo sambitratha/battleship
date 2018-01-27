@@ -90,11 +90,30 @@ def check():
                     if serverboard[row][col] == val:
                         serverstate[row][col] = 2
 
+
+def isover():
+    global turn
+    flagserver = True
+    flagclient = True
+    for row in range(rows):
+        for col in range(cols):
+            if clientboard[row][col] != 0 and clientstate[row][col] == 0:
+                flagserver = False
+            if serverboard[row][col] != 0 and serverstate[row][col] == 0:
+                flagclient = False
+
+    if flagserver:
+        turn = "overserver"
+    if flagclient:
+        turn = "overclient"
+
+
+
 def main():
     global clientstate, serverstate, turn
     while 1:
         DISPLAYSURF.fill(white)
-
+        isover()
         canvas.draw(DISPLAYSURF, serverstate, clientstate, serverboard, clientboard, "client", 0, turn)
         pygame.display.update()
 
