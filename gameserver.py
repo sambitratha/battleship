@@ -95,19 +95,33 @@ def check():
                         clientstate[row][col] = 2
 
 
+def isover():
+    global turn
+    flagserver = True
+    flagclient = True
+    for row in range(rows):
+        for col in range(cols):
+            if clientboard[row][col] != 0 and clientstate[row][col] == 0:
+                flagserver = False
+            if serverboard[row][col] != 0 and serverstate[row][col] == 0:
+                flagclient = False
+
+    if flagserver:
+        turn = "overserver"
+    if flagclient:
+        turn = "overclient"
+
 
 
 def main():
     global serverstate, clientstate, turn
     while 1:
         DISPLAYSURF.fill(white)
-
+        isover()
         if turn == "client":
             message = clientsocket.recv(1024)
-            print message
             if len(message) != 101:
                 continue
-            print "message = ", message
             serverstate = getboardfromstring(message[1:])
             if message[0] == '1':
                 turn = "server"
@@ -124,7 +138,6 @@ def main():
             if event.type == locals.MOUSEBUTTONDOWN:
 
                 if turn == "server":
-                    #print "oh damn"
                     (mousex, mousey) = event.pos
                     c = (mousex - xmargin)/(width + gap)
                     r = (mousey - ymargin)/(height + gap)
@@ -135,7 +148,6 @@ def main():
                     if turn == "client":
                         front = "1"
                     check()
-                    #print "to send = ", front + getstring(clientstate)
                     clientsocket.send(front + getstring(clientstate))
 
 
