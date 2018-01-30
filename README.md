@@ -4,6 +4,13 @@
 
 ## How to run
 
-  - first run the following code
-   python gameserver.py
+  - first run the following code 
+     
+     python gameserver.py
+     
+  - After that run the following command
+  
+      python gameclient.py
+      
+      
     
